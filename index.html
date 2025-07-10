@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ami's Control Panel</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      color: #333;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+
+    section {
+      background-color: white;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #34495e;
+      font-size: 1.4rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="file"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-right: 0.5rem;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    p {
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    audio {
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+</head>
+<body>
+
+<h1>Ami's Control Panel</h1>
+
+<!-- Login -->
+<section>
+  <h2>Login</h2>
+  <label>Username: <input type="text" id="username" value="robot"></label>
+  <label>Password: <input type="password" id="password" value="secret123"></label>
+  <button onclick="login()">Login</button>
+</section>
+
+<!-- Command -->
+<section>
+  <h2>Send Command</h2>
+  <label>Action: <input type="text" id="cmd-action"></label>
+  <label>Select Language:
+    <select id="cmd-lang">
+      <option value="eng">English</option>
+      <option value="fra">French</option>
+      <option value="deu">German</option>
+      <option value="hin">Hindi</option>
+      <option value="pol">Polish</option>
+      <option value="spa">Spanish</option>
+      <option value="ita">Italian</option>
+      <option value="por">Portuguese</option>
+      <option value="jpn">Japanese</option>
+      <option value="ara">Arabic</option>
+    </select>
+  </label>
+  <button onclick="sendCommand()">Send</button>
+  <button onclick="getCommand()">Get Current Command</button>
+  <p id="command-result"></p>
+</section>
+
+<!-- Reminder -->
+<section>
+  <h2>Set a Reminder</h2>
+  <label>Task: <input type="text" id="reminder-task"></label>
+  <label>Time (HH:MM or HH:MM AM/PM): <input type="text" id="reminder-time"></label>
+  <button onclick="setReminder()">Set Reminder</button>
+  <p id="reminder-result"></p>
+</section>
+
+<!-- Translate -->
+<!-- <section>
+  <h2>Translate</h2>
+  <textarea id="translate-text" rows="3" placeholder="Text to translate"></textarea>
+  <label>Source Language (e.g. en, fr, auto): <input type="text" id="source-lang" value="auto"></label>
+  <label>Target Language (e.g. en, fr): <input type="text" id="target-lang" value="en"></label>
+  <button onclick="translateText()">Translate</button>
+  <p id="translation-result"></p>
+  <audio controls id="translation-audio" style="display:none"></audio>
+</section> -->
+<section>
+  <h2>Translate</h2>
+  <textarea id="translate-text" rows="3" placeholder="Text to translate"></textarea>
+
+  <label>Source Language:
+    <select id="source-lang">
+      <option value="auto">Auto Detect</option>
+      <option value="en">English (en)</option>
+      <option value="fr">French (fr)</option>
+      <option value="de">German (de)</option>
+      <option value="es">Spanish (es)</option>
+      <option value="it">Italian (it)</option>
+      <option value="pt">Portuguese (pt)</option>
+      <option value="ja">Japanese (ja)</option>
+      <option value="ar">Arabic (ar)</option>
+      <option value="hi">Hindi (hi)</option>
+      <option value="pl">Polish (pl)</option>
+      <!-- add more languages as needed -->
+    </select>
+  </label>
+
+  <label>Target Language:
+    <select id="target-lang">
+      <option value="en">English (en)</option>
+      <option value="fr">French (fr)</option>
+      <option value="de">German (de)</option>
+      <option value="es">Spanish (es)</option>
+      <option value="it">Italian (it)</option>
+      <option value="pt">Portuguese (pt)</option>
+      <option value="ja">Japanese (ja)</option>
+      <option value="ar">Arabic (ar)</option>
+      <option value="hi">Hindi (hi)</option>
+      <option value="pl">Polish (pl)</option>
+      <!-- add more languages as needed -->
+    </select>
+  </label>
+
+  <button onclick="translateText()">Translate</button>
+  <p id="translation-result"></p>
+  <audio controls id="translation-audio" style="display:none"></audio>
+</section>
+
+
+<!-- Google Query -->
+<section>
+  <h2>Google Query</h2>
+  <input type="text" id="google-query" placeholder="Ask a question">
+  <button onclick="askGoogle()">Ask</button>
+  <p id="google-result"></p>
+</section>
+
+<!-- Fun Fact -->
+<section>
+  <h2>Fun Fact</h2>
+  <button onclick="getFact()">Get Fact</button>
+  <p id="fact-result"></p>
+</section>
+
+<!-- Face Recognition -->
+<section>
+  <h2>Face Recognition</h2>
+  <label>Name for Face: <input type="text" id="face-name"></label>
+  <input type="file" id="face-file">
+  <button onclick="uploadFace()">Upload Face</button>
+  <br><br>
+  <button onclick="startFaceRecognition()">Start Face Recognition</button>
+  <p id="face-result"></p>
+</section>
+
+<script>
+let token = "";
+
+function login() {
+  const data = new URLSearchParams();
+  data.append("username", document.getElementById("username").value);
+  data.append("password", document.getElementById("password").value);
+
+  fetch("/token", {
+    method: "POST",
+    body: data,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+  })
+  .then(res => res.json())
+  .then(json => {
+    token = json.access_token;
+    alert("Logged in! Token saved.");
+  });
+}
+
+function sendCommand() {
+  fetch("/command", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      action: document.getElementById("cmd-action").value,
+      language_code: document.getElementById("cmd-lang").value
+    })
+  }).then(res => res.json()).then(data => {
+    document.getElementById("command-result").innerText = data.message;
+  });
+}
+
+function getCommand() {
+  fetch("/command", {
+    headers: { Authorization: `Bearer ${token}` }
+  }).then(res => res.json()).then(data => {
+    document.getElementById("command-result").innerText = "Action: " + JSON.stringify(data.action);
+  });
+}
+
+function setReminder() {
+  fetch("/remind-me", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      task: document.getElementById("reminder-task").value,
+      time: document.getElementById("reminder-time").value
+    })
+  }).then(res => res.json()).then(data => {
+    document.getElementById("reminder-result").innerText = data.message;
+  });
+}
+
+function translateText() {
+  fetch("/translate", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      text: document.getElementById("translate-text").value,
+      source_lang: document.getElementById("source-lang").value,
+      target_lang: document.getElementById("target-lang").value
+    })
+  }).then(res => res.json()).then(data => {
+    document.getElementById("translation-result").innerText = data.message;
+    const audio = document.getElementById("translation-audio");
+    audio.src = data.audio_url;
+    audio.style.display = "block";
+  });
+}
+
+function askGoogle() {
+  fetch("/google-query", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ query: document.getElementById("google-query").value })
+  }).then(res => res.json()).then(data => {
+    document.getElementById("google-result").innerText = data.message;
+  });
+}
+
+function getFact() {
+  fetch("/fact").then(res => res.json()).then(data => {
+    document.getElementById("fact-result").innerText = data.fact;
+  });
+}
+
+function uploadFace() {
+  const fileInput = document.getElementById("face-file");
+  const name = document.getElementById("face-name").value;
+  const formData = new FormData();
+  formData.append("file", fileInput.files[0]);
+
+  fetch(`/add-face/?name=${encodeURIComponent(name)}`, {
+    method: "POST",
+    body: formData
+  }).then(res => res.json()).then(data => {
+    document.getElementById("face-result").innerText = data.message;
+  });
+}
+
+function startFaceRecognition() {
+  fetch("/start-face-recognition", {
+    method: "POST"
+  }).then(res => res.json()).then(data => {
+    document.getElementById("face-result").innerText = data.message;
+  });
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Robot Control Panel</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; }
+  label, button { display: block; margin-top: 1rem; }
+  input, textarea { width: 100%; padding: 0.5rem; margin-top: 0.3rem; }
+  textarea { height: 100px; }
+  #response, #current-action { white-space: pre-wrap; background: #eef; padding: 1rem; margin-top: 1rem; }
+</style>
+</head>
+<body>
+
+<h1>Robot Control Panel</h1>
+
+<section id="token-section">
+  <h2>Enter Bearer Token</h2>
+  <label>
+    Token:
+    <input type="text" id="token-input" placeholder="Paste your Bearer token here" />
+  </label>
+</section>
+
+<section id="command-section">
+  <h2>Send Command</h2>
+  <label>
+    Command Action:
+    <input type="text" id="command-input" placeholder="Enter command action..." />
+  </label>
+  <button id="send-command-btn">Send Command</button>
+</section>
+
+<section id="google-query-section">
+  <h2>Google Query</h2>
+  <label>
+    Query:
+    <input type="text" id="google-query-input" placeholder="Enter search query..." />
+  </label>
+  <button id="send-google-query-btn">Send Google Query</button>
+</section>
+
+<section id="current-action-section">
+  <h2>Current Robot Action</h2>
+  <button id="refresh-action-btn">Refresh Action</button>
+  <pre id="current-action"></pre>
+</section>
+
+<section id="response-section">
+  <h2>Response</h2>
+  <pre id="response"></pre>
+</section>
+
+<script>
+  function speak(text) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.cancel(); // Stop any ongoing speech
+      window.speechSynthesis.speak(utterance);
+    } else {
+      console.warn("Speech synthesis not supported");
+    }
+  }
+
+  function getToken() {
+    return document.getElementById("token-input").value.trim();
+  }
+
+  const sendCommandBtn = document.getElementById("send-command-btn");
+  const sendGoogleQueryBtn = document.getElementById("send-google-query-btn");
+  const refreshActionBtn = document.getElementById("refresh-action-btn");
+
+  sendCommandBtn.onclick = async () => {
+    const token = getToken();
+    if (!token) {
+      alert("Please enter your Bearer token");
+      return;
+    }
+
+    const action = document.getElementById("command-input").value.trim();
+    if (!action) {
+      alert("Please enter a command action");
+      return;
+    }
+
+    try {
+      const res = await fetch("/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ action }),
+      });
+
+      const data = await res.json();
+      document.getElementById("response").textContent = data.message || JSON.stringify(data);
+    } catch (e) {
+      document.getElementById("response").textContent = "Error sending command: " + e.message;
+    }
+  };
+
+  sendGoogleQueryBtn.onclick = async () => {
+    const token = getToken();
+    if (!token) {
+      alert("Please enter your Bearer token");
+      return;
+    }
+
+    const query = document.getElementById("google-query-input").value.trim();
+    if (!query) {
+      alert("Please enter a query");
+      return;
+    }
+
+    try {
+      const res = await fetch("/google-query", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      const data = await res.json();
+      const message = data.message || JSON.stringify(data);
+      document.getElementById("response").textContent = message;
+      speak(message);
+    } catch (e) {
+      document.getElementById("response").textContent = "Error sending query: " + e.message;
+    }
+  };
+
+  refreshActionBtn.onclick = async () => {
+    const token = getToken();
+    if (!token) {
+      alert("Please enter your Bearer token");
+      return;
+    }
+
+    try {
+      const res = await fetch("/command", {
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        document.getElementById("current-action").textContent = "Error: " + err.detail;
+        return;
+      }
+
+      const data = await res.json();
+      document.getElementById("current-action").textContent = data.action || "(empty)";
+    } catch (e) {
+      document.getElementById("current-action").textContent = "Network error: " + e.message;
+    }
+  };
+</script>
+
+</body>
+</html> -->
