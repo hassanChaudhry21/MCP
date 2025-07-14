@@ -67,3 +67,110 @@ If this happens through setting current_command for Ameca to act on, you partial
 → You’ll need:
 
 A client (e.g., ROS, WebSocket, serial, or TCP connection) that sends current_command to Ameca’s API or control system.
+
+MAI - 3
+
+RobotClient CLI - Comprehensive Documentation
+Overview
+This Python script implements a command-line interface (CLI) client to interact with a Robot API hosted at http://192.168.0.100:8000. It provides authentication, command sending, querying, face recognition management, translation, and other utility features via REST API endpoints.
+
+Setup
+Requirements
+Python 3.6+
+
+requests package (pip install requests)
+
+Configuration
+The base API URL is configured in the BASE_URL constant. Update this if your API server runs elsewhere.
+
+Components
+RobotClient Class
+Handles all API communication and stores the authentication token.
+
+Methods
+authenticate()
+
+Prompts user for username and password, sends credentials to /token endpoint, and stores the received JWT access token for authorization.
+
+headers()
+
+Returns authorization headers including the bearer token. Raises an exception if not authenticated.
+
+set_command(action, language_code="eng")
+
+Sends a command action with an optional language code to the /command endpoint.
+
+get_command()
+
+Retrieves the current command from /command.
+
+google_query(query)
+
+Submits a Google/DuckDuckGo search query to /google-query.
+
+remind_me(task, time_str)
+
+Sets a reminder task with a specified time via /remind-me.
+
+add_face(name, filepath)
+
+Uploads a face image file for recognition, sending multipart/form-data with the file to /add-face/.
+
+start_face_recognition()
+
+Starts the face recognition process via /start-face-recognition.
+
+get_fact()
+
+Fetches a fun fact from /fact.
+
+translate(text, source_lang="auto", target_lang="en")
+
+Sends a translation request to /translate, optionally specifying source and target languages.
+
+CLI Commands
+Command	Description	Usage Example
+login	Authenticate and get an access token	login
+set-command <action> [lang]	Send a command with optional language code (default 'eng')	set-command "turn on the lights" eng
+get-command	Retrieve the current command	get-command
+google-query <query>	Send a search query to Google/DuckDuckGo	google-query "weather in London"
+remind-me <task> <HH:MM>	Set a reminder for a task at a specific time	remind-me "call mom" 18:30
+add-face <name> <filepath>	Upload a face image file for recognition	add-face aahil /Users/hassanchaudhry/Downloads/Aahil.png
+start-face	Start the face recognition process	start-face
+fact	Get a fun fact	fact
+translate <text> [src] [dst]	Translate text from source language (default auto) to target language (default 'en')	translate "Bonjour" fr en
+exit	Exit the CLI	exit
+
+How to Run
+Run the script:
+
+bash
+Copy
+Edit
+python your_script_name.py
+Use commands at the prompt (>) as shown above.
+
+Use login to authenticate before calling protected endpoints.
+
+Important Details
+Authentication
+
+The login command prompts for credentials and stores a JWT token used for authorization in subsequent requests.
+
+Command Parsing
+
+Uses shlex.split() to handle quoted strings properly in CLI input.
+
+File Upload
+
+The add-face command requires a valid file path; otherwise, it will print an error.
+
+Error Handling
+
+Basic error handling is implemented with informative messages.
+
+Exit
+
+Use exit or press Ctrl+C to exit the CLI gracefully.
+
+
