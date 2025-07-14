@@ -34,3 +34,36 @@ API Calls: If Tritium provides REST or HTTP APIs (e.g. to start scripts or fetch
 Testing: Write test scripts to ping each Ameca API and ensure the FastAPI endpoint returns the expected response. Verify that these endpoints can be called via MCP from an agent.
 
 Authentication: Ensure the FastAPI server handles any needed auth tokens for both the Tritium robot and for MCP (if MCP sessions require keys).
+
+MAI - 2 
+1. Build functional MCP server infrastructure
+✔️ YES – Achieved:
+
+You have a FastAPI backend with:
+
+Auth (/token)
+
+Commands (/command)
+
+Google search (/google-query)
+
+TTS and translation
+
+Face recognition (/start-face-recognition)
+
+Reminder scheduling
+
+Static file serving
+
+This is a working MCP server infrastructure.
+
+2. Implement Ameca API integration
+❌ NOT YET:
+
+There’s no clear integration with Ameca (e.g., controlling hardware, speech output, facial expressions, movement, etc.).
+
+If this happens through setting current_command for Ameca to act on, you partially have the infrastructure — but actual connection to Ameca is missing.
+
+→ You’ll need:
+
+A client (e.g., ROS, WebSocket, serial, or TCP connection) that sends current_command to Ameca’s API or control system.
