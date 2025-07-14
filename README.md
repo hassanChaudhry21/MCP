@@ -173,4 +173,91 @@ Exit
 
 Use exit or press Ctrl+C to exit the CLI gracefully.
 
+MAI - 4
+
+ Acceptance Criteria
+ Document existing research and prototypes relevant to MCP or Ameca.
+
+ List current understanding of MCP (Modular Control Platform) and Ameca (Humanoid Robot by Engineered Arts).
+
+ Identify technical challenges and knowledge gaps encountered during exploration or development.
+
+ Create a clear baseline for tracking future progress and improvements.
+
+📋 Tasks & Progress
+🧠 1. Document Current MCP Knowledge and Research
+✅ Explored the MCP architecture and how it interfaces with various robot control systems.
+
+✅ Reviewed available MCP API endpoints, protocols (REST/ROS if applicable), and communication flow.
+
+✅ Noted down how commands are structured (e.g., JSON payloads for movement or expressions).
+
+✅ Observed any CLI or SDK tools that MCP provides for interaction.
+
+🤖 2. List Ameca API Understanding
+✅ Accessed the Ameca documentation via the local API endpoint (e.g., http://192.168.0.X:8000).
+
+✅ Understood the endpoints available:
+
+/add-face/ (Face recognition)
+
+/start-face-recognition (Start detection)
+
+/translate (Text translation)
+
+/command, /google-query, etc.
+
+✅ Identified that the system uses JWT token-based authentication and communicates via JSON over HTTP.
+
+✅ Understood the command handling pipeline (e.g., how spoken commands translate into robot actions).
+
+⚠️ 3. Identify Technical Challenges Faced
+⛔ Understanding how face encodings are validated during live recognition.
+
+⛔ Not sure how MCP will "forward" commands from the local CLI to Ameca’s expressions/motion controller.
+
+⛔ No unified data flow yet between Ameca recognition events and MCP responses (e.g., a "face recognized" → "greet by name" pipeline).
+
+⛔ Unsure how to simulate or test commands outside of local development (no sandbox environment).
+
+⛔ Converting API prototypes into reusable Python modules/scripts for MCP is not fully understood.
+
+📝 4. Create Progress Documentation in Confluence
+✅ Created a new Confluence page: “Intern Progress – MCP x Ameca Integration”
+
+✅ Structured it into the following sections:
+
+Overview
+
+MCP Architecture Understanding
+
+Ameca Capabilities
+
+Command Flow Mapping
+
+Known Issues
+
+Questions for Mentor
+
+✅ Included annotated screenshots and code snippets (e.g., RobotClient class in Python CLI).
+
+📊 Baseline Snapshot
+Area	Current Status
+MCP API Familiarity	Moderate
+Ameca API Usage	High (face/command/translate)
+Full System Integration	Not Yet Started
+CLI Command Coverage	~80% Working
+Auth & File Handling	Understood
+Real-time Feedback Loop	Needs Help
+
+🧭 Next Steps
+ Validate that face recognition is triggering the correct events.
+
+ Work with mentor to map MCP command to Ameca animation sets.
+
+ Begin logging system for debugging command chains.
+
+ Explore persistent storage of recognized faces and their events.
+
+
 
